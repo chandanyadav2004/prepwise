@@ -96,19 +96,6 @@ const Agent = ({userName, userId,type} : AgentProps) => {
                     },
                 }
             );
-        } else {
-            let formattedQuestions = "";
-            if (questions) {
-                formattedQuestions = questions
-                    .map((question) => `- ${question}`)
-                    .join("\n");
-            }
-
-            await vapi.start(interviewer, {
-                variableValues: {
-                    questions: formattedQuestions,
-                },
-            });
         }
     };
 
