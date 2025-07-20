@@ -8,7 +8,7 @@ import DisplayTechIcons from "@/components/DisplayTechIcons";
 
 
 
-const InterviewCard = ({ interviewId , userId, role, type, techstack, createdAt } : InterviewCardProps ) => {
+const InterviewCard = ({ id , userId, role, type, techstack, createdAt } : InterviewCardProps ) => {
 
     const feedback = null as Feedback | null
     const  normalizedType = /mix/gi.test(type) ? 'Mixed' : type;
@@ -53,7 +53,7 @@ const InterviewCard = ({ interviewId , userId, role, type, techstack, createdAt 
                     <DisplayTechIcons techStack={techstack} />
 
                     <Button className='btn-primary'>
-                        <Link href={feedback ? `/app/(root)/interview/${interviewId}/feedback` : `/inteview/${interviewId}`}>
+                        <Link href={feedback ? `/interview/${id}/feedback` : `/interview/${id}`}>
                             {feedback ? 'Check Feedback ': 'View Interview'}
                         </Link>
                     </Button>
