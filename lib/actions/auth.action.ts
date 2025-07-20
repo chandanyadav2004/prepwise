@@ -24,9 +24,9 @@ export async function  signUp(params: SignUpParams){
             message: 'You have successfully created account'
         }
 
-    }catch(e : any){
-        console.log('signUp error', e.message);
-        if(e.code === 'auth/email-already-exists'){
+    }catch(error : any){
+        console.log('signUp error', error);
+        if(error.code === 'auth/email-already-exists'){
             return {
                 success: false,
                 message: `This email already exists`,
@@ -55,7 +55,7 @@ export async function signIn(params: SignInParams){
 
         await setSessionCookie(idToken);
     }catch(e){
-        console.error('Sign In Error ',e.message);
+        console.log('Sign In Error ',e);
 
         return {
             success: false,
@@ -107,4 +107,38 @@ export async function  isAuthenticated(){
     const user = await getCurrentUser();
 
     return !!user; //true -> boolean or false
+}
+
+
+export async function getInterviewByUserId(userId: string): Promise<Interview[] | null> {
+    const interviews = await db.collection('interviews')
+        .where('userId','==', userId)
+        .orderBy('createdAt','desc')
+        .get();
+
+    return interviews.docs.map((doc)=>({
+        id: doc.id,
+        ...doc.data()
+    })) as Interview[];
+
+
+}
+
+export async function getLatestInterview(params: GetLatestInterviewsParams): Promise<Interview[] | null> {
+
+    const { userId, limit = 20 } = params;
+
+    const interviews = await db.collection('interviews')
+        .orderBy('createdAt','desc')
+        .where('finalized','==', true)
+        .where('userId','!=',userId)
+        .limit(limit)
+        .get();
+
+    return interviews.docs.map((doc)=>({
+        id: doc.id,
+        ...doc.data()
+    })) as Interview[];
+
+
 }
