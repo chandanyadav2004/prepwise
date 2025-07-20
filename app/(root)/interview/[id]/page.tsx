@@ -1,5 +1,5 @@
 import React from 'react'
-import {getInterviewId} from "@/lib/actions/general.action";
+import {getFeedbackByInterviewId, getInterviewId} from "@/lib/actions/general.action";
 import {redirect} from "next/navigation";
 import {getRandomInterviewCover} from "@/lib/utils";
 import Image from "next/image";
@@ -13,6 +13,11 @@ const Page = async ({params}: RouteParams) => {
     const interview = await getInterviewId(id);
 
     if(!interview) redirect('/');
+
+    const feedback = await getFeedbackByInterviewId({
+        interviewId: id,
+        userId: user?.id!,
+    });
 
 
     return (
@@ -35,8 +40,7 @@ const Page = async ({params}: RouteParams) => {
 
             <Agent
                 userName={user?.name || ''}
-
-                userId = {user?.id}
+                userId={user?.id}
                 interviewId={id} type='interview'
                 questions={interview.questions}
             />

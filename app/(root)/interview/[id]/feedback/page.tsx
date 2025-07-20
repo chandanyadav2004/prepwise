@@ -21,7 +21,7 @@ const Feedback = async ({ params }: RouteParams) => {
         interviewId: id,
         userId: user?.id!,
     });
-
+    console.log(feedback);
     return (
         <section className="section-feedback">
             <div className="flex flex-row justify-center">
